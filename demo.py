@@ -3,9 +3,9 @@ A SIMPLE SHODAN SEARCH OF EXISTING + PUBLIC DATA THAT RETURNS INFO ABOUT DOMAINS
 """
 
 import shodan
-from config import API_KEY
+from config import SHODAN_API_KEY
 
-api = shodan.Shodan(API_KEY)
+api = shodan.Shodan(SHODAN_API_KEY)
 
 
 """
@@ -14,39 +14,86 @@ THIS IS A PROGRAM THAT WILL OFFER GEOGRAPHICAL INFORMATION OF OPEN PORTS OF STOR
 
 """
 
-try:
-
-    # Initial user input that is stored as query
-    query = input('Enter an entity to learn more about their security posture:')
-
-    # Use api and query to store results
+def user_search(query):
     results = api.search(query)
+    return results
 
-    # Print total number of results found
-    print(f"Results found: {results['total']}")
+def total(results):
+    return results['total']
 
+def create_ip_dict(results):
+    
     # Create a dictionary to store information
     ip_dict = {}
+    list_domain = []
 
     # Iterate through each search result
     for result in results['matches']:
 
         # Assign k to each result's IP address
         k = result['ip_str']
+        domain = result['domains']
 
         # If k is not in the dictionary, then add it and the corresponding city
         if k not in ip_dict:
-            ip_dict[k] = result['location']['city']
+            ip_dict[k] = result['location']['city'], domain
 
-    # Print the dictionary of IP and city
-    print(ip_dict)
+    return ip_dict
 
-except shodan.APIError as e:
-    print(f'Error: {format(e)}.')
+# print(create_ip_dict(user_search('Wayfair')))
 
-# ipinfo = api.host('8.8.8.8')
-# print(ipinfo)
+def get_non_webservers(ip_dict):
 
-# for banner in api.search_cursor('http.title:"hacked by"'):
-#     print(banner)
+    nonweb_list = []
+
+    for k, v in ip_dict.items():
+        if v[-1][:] == []:
+            nonweb_list.append((k, v[0]))
+
+    return nonweb_list
+
+print(get_non_webservers(create_ip_dict(user_search('Wayfair'))))
+
+def get_ip_list(query):
+    results = user_search(query)
+    ip_dict = create_ip_dict(results)
+    ip_list = list(ip_dict.keys())
+
+    return ip_list
+
+def get_ip_coords(query):
+    ip = get_ip_list(query)
+    first_ip = ip[2]
+
+    host = api.host(first_ip)
+    latitude = host['data'][1]['location']['latitude']
+    longitude = host['data'][1]['location']['longitude']
+    coords = latitude, longitude
+
+    return coords
+
+# print(get_ip_coords('babson'))
+
+
+# def see_ips(query):
+#     results = user_search(query)
+#     ip_dict = create_ip_dict(results)
+#     print(get_ip_list(ip_dict))
+# see_ips('babson')
+
+# def get_ip_info(ip_list):
+    
+#     ip = ip_list[0]
+
+#     host = api.host(ip)
+
+#     print(host)
+
+# except shodan.APIError as e:
+#     print(f'Error: {format(e)}.')
+    
+
+
+# host = api.host()
+
 

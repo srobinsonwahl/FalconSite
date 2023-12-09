@@ -107,6 +107,4 @@ def create_map(ip_coords_list):
         output_path = 'templates/coordinate_map.html'
         my_map.save(output_path)
     else:
-        print("No IP Info found")
-
-create_map(get_ip_coords("Deftones"))
+        return 999

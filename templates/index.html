@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FalconSite - Home</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00ff00;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            border: none;
+            background-color: #333;
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            padding: 10px;
+            background-color: #00ff00;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005500;
+        }
+
+        section {
+            margin-top: 40px;
+        }
+
+        h2 {
+            color: #00ff00;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>FalconSite</h1>
+
+        <p>By utilizing publicly available data harvested via internet crawlers from a third-party, Shodan, FalconSite accesses up-to-date data on all IP addresses connected to the internet, and does so in an entirely legal, transparent, and efficient manner. The data maps all open ports, or internet-facing ports, that are actively listening for packets to be sent over the internet to them. While open ports are not inherently unsafe, an open port is like leaving your house door unlocked, but keeping the door closed. If someone wants to get in, and the system is not set up to control these infiltrators, they surely will get in.</p>
+
+        <form method="post" action="/result">
+            <input type="text" name="QUERY" placeholder="Enter the company you want to search for" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <section>
+            <h2>Big Idea/Goal/Why did we do this?</h2>
+            <p>Provide a quick and easy explanation of your project's purpose. Consider using a narrative or example use case.</p>
+        </section>
+    </div>
+</body>
+
+</html>

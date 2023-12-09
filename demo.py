@@ -17,15 +17,24 @@ THIS IS A PROGRAM THAT WILL OFFER GEOGRAPHICAL INFORMATION OF OPEN PORTS OF STOR
 """
 
 def user_search(query):
+    """
+    Returns results from a query using shodan api and module
+    """
     results = api.search(query)
     return results
 
-# print(user_search("Dell EMC"))
 
 def total(results):
+    """
+    Returns total number of search results from a user search
+    """
     return results['total']
 
+
 def create_ip_dict(results):
+    """
+    Returns a dictionary of IP Information based on a user query, stores data in the following convention: "IP":[[City], Port #]
+    """
     
     # Create a dictionary to store information
     ip_dict = {}
@@ -44,18 +53,23 @@ def create_ip_dict(results):
 
     return ip_dict
 
-# print(create_ip_dict(user_search('Dell EMC')))
 
 def get_ip_list(query):
+    """
+    Returns a list of the IPs within the dictionary based on user search
+    """
     results = user_search(query)
     ip_dict = create_ip_dict(results)
     ip_list = list(ip_dict.keys())
 
     return ip_list
 
-# print(get_ip_list('McDonalds'))
 
 def get_ip_coords(query):
+    """
+    Returns a list of coordinates based on IP address by navigating Shodan query of each IP and pulling longitude and latitude, if not in query returns 0, 0
+    """
+
     ip = get_ip_list(query)
     ip_coords_list = []
 
@@ -72,11 +86,13 @@ def get_ip_coords(query):
     
     return ip_coords_list
 
-# print(get_ip_coords('McDonalds'))
 
 from reverse_geocode import make_mapbox_url, get_json, get_address, address_from_coords
 
 def get_addresses(ip_coords_list):
+    """
+    Returns addresses for each IP address by reverse geocoding each coordinate from ip coords list
+    """
     address_list = []
 
     for i in ip_coords_list:
@@ -87,12 +103,13 @@ def get_addresses(ip_coords_list):
     
     return address_list
 
-# print(get_addresses(get_ip_coords('Dell EMC')))
-
 
 import folium
 
 def create_map(ip_coords_list):
+    """
+    Creates a map using folium module by assessing # of coordinates within ip coords list, and plots each coord with it's respective address from get address, if no coordinates, returns an error message 999
+    """
 
     coordinates = ip_coords_list
     if coordinates:

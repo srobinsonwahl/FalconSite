@@ -17,8 +17,11 @@ def get_json(url:str):
     return response_data
 
 def get_address(response_data):
-    address = response_data['features'][0]['place_name']
-    return address
+    try:
+        address = response_data['features'][0]['place_name']
+        return address
+    except:
+        address = None
 
 def address_from_coords(coords):
     url = make_mapbox_url(coords)
@@ -27,4 +30,3 @@ def address_from_coords(coords):
 
     return address
 
-print(address_from_coords((42.2987, -71.2595)))
